@@ -1,0 +1,56 @@
+// Адаптер для Slack
+class SlackNotificationAdapter implements Notification
+{
+    private $slack;
+
+    public function __construct(Slack $slack)
+    {
+        $this->slack = $slack;
+    }
+
+    public function send(string $title, string $message): void
+    {
+        // Виклик методу відправки сповіщення у Slack
+        $this->slack->sendMessage($title, $message);
+    }
+}
+
+// Адаптер для SMS
+class SMSNotificationAdapter implements Notification
+{
+    private $smsService;
+
+    public function __construct(SMSService $smsService)
+    {
+        $this->smsService = $smsService;
+    }
+
+    public function send(string $title, string $message): void
+    {
+        // Виклик методу відправки SMS
+        $this->smsService->sendSMS($title, $message);
+    }
+}
+
+// Головний код
+function main()
+{
+    $adminEmail = "admin@example.com";
+    $emailNotification = new EmailNotification($adminEmail);
+    $slack = new Slack("your_slack_login", "your_api_key", "your_chat_id");
+    $slackAdapter = new SlackNotificationAdapter($slack);
+    $smsService = new SMSService("your_phone", "your_sender");
+    $smsAdapter = new SMSNotificationAdapter($smsService);
+
+    // Відправка повідомлень через Email
+    $emailNotification->send("Email Title", "This is an email message.");
+
+    // Відправка повідомлень у Slack
+    $slackAdapter->send("Slack Title", "This is a Slack message.");
+
+    // Відправка SMS
+    $smsAdapter->send("SMS Title", "This is an SMS message.");
+}
+
+// Виклик головного коду
+main();

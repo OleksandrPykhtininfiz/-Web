@@ -1,0 +1,37 @@
+# Абстрактний клас для сторінок
+class Page:
+    method render(renderer: Renderer) -> string
+
+# Конкретні сторінки
+class SimplePage extends Page
+class ProductPage extends Page
+
+# Абстрактний клас для рендерера
+class Renderer:
+    method renderPage(page: Page) -> string
+
+# Конкретні рендерери
+class HTMLRenderer extends Renderer
+class JSONRenderer extends Renderer
+class XMLRenderer extends Renderer
+
+# Головний код
+method main() -> None:
+    # Створюємо різні сторінки
+    simplePage = new SimplePage()
+    productPage = new ProductPage()
+
+    # Рендеримо сторінки в різних форматах
+    htmlRenderer = new HTMLRenderer()
+    jsonRenderer = new JSONRenderer()
+    xmlRenderer = new XMLRenderer()
+
+    htmlSimplePage = simplePage.render(htmlRenderer)
+    jsonProductPage = productPage.render(jsonRenderer)
+
+    # Виводимо результати
+    print("HTML рендерінг простої сторінки:", htmlSimplePage)
+    print("JSON рендерінг сторінки товару:", jsonProductPage)
+
+# Виклик головного коду
+main()

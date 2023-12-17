@@ -1,0 +1,53 @@
+# Абстрактна стратегія для розрахунку вартості доставки
+class DeliveryStrategy:
+    method calculateCost(distance: float) -> float
+
+# Конкретні стратегії для розрахунку вартості доставки
+class SelfPickupStrategy extends DeliveryStrategy:
+    method calculateCost(distance: float) -> float:
+        # Логіка розрахунку вартості доставки при самовивозі
+
+class ExternalDeliveryStrategy extends DeliveryStrategy:
+    method calculateCost(distance: float) -> float:
+        # Логіка розрахунку вартості доставки зовнішньою службою доставки
+
+class OwnDeliveryStrategy extends DeliveryStrategy:
+    method calculateCost(distance: float) -> float:
+        # Логіка розрахунку вартості доставки власною службою доставки
+
+# Клас замовлення
+class Order:
+    private deliveryStrategy: DeliveryStrategy
+    private distance: float
+
+    method constructor(deliveryStrategy: DeliveryStrategy, distance: float) -> None:
+        self.deliveryStrategy = deliveryStrategy
+        self.distance = distance
+
+    method calculateDeliveryCost() -> float:
+        return self.deliveryStrategy.calculateCost(self.distance)
+
+# Головний код
+method main() -> None:
+    # Створюємо об'єкти стратегій для розрахунку доставки
+    selfPickup = new SelfPickupStrategy()
+    externalDelivery = new ExternalDeliveryStrategy()
+    ownDelivery = new OwnDeliveryStrategy()
+
+    # Створюємо об'єкти замовлень з різними стратегіями доставки
+    order1 = new Order(selfPickup, 0.0)  # Самовивіз, відстань - 0 км
+    order2 = new Order(externalDelivery, 5.0)  # Доставка зовнішньою службою, відстань - 5 км
+    order3 = new Order(ownDelivery, 10.0)  # Доставка власною службою, відстань - 10 км
+
+    # Розраховуємо вартість доставки для кожного замовлення
+    cost1 = order1.calculateDeliveryCost()
+    cost2 = order2.calculateDeliveryCost()
+    cost3 = order3.calculateDeliveryCost()
+
+    # Виводимо результати
+    print("Вартість доставки для самовивозу: $", cost1)
+    print("Вартість доставки зовнішньою службою: $", cost2)
+    print("Вартість доставки власною службою: $", cost3)
+
+# Виклик головного коду
+main()

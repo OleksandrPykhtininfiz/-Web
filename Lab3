@@ -1,0 +1,49 @@
+# Базовий клас для запитів-будівельників
+class QueryBuilder:
+    # Методи для конструювання SQL-запиту
+    method select(fields: List[str]) -> None
+    method where(condition: str) -> None
+    method limit(limit: int) -> None
+    method getSQL() -> str
+
+# Конкретний будівельник для PostgreSQL
+class PostgreSQLQueryBuilder extends QueryBuilder:
+    method select(fields: List[str]) -> None
+    method where(condition: str) -> None
+    method limit(limit: int) -> None
+    method getSQL() -> str
+
+# Конкретний будівельник для MySQL
+class MySQLQueryBuilder extends QueryBuilder:
+    method select(fields: List[str]) -> None
+    method where(condition: str) -> None
+    method limit(limit: int) -> None
+    method getSQL() -> str
+
+# Клас для клієнта, який використовує будівельник
+class Client:
+    method buildQuery(builder: QueryBuilder) -> str:
+        # Клієнтський код використовує будівельник для створення SQL-запиту
+        builder.select(["field1", "field2"])
+        builder.where("condition")
+        builder.limit(10)
+        return builder.getSQL()
+
+# Головний код
+method main() -> None:
+    # Створення об'єкту будівельника для PostgreSQL
+    postgresBuilder = new PostgreSQLQueryBuilder()
+
+    # Створення об'єкту будівельника для MySQL
+    mysqlBuilder = new MySQLQueryBuilder()
+
+    # Клієнт використовує будівельника для створення SQL-запитів
+    postgresQuery = Client.buildQuery(postgresBuilder)
+    mysqlQuery = Client.buildQuery(mysqlBuilder)
+
+    # Виведення результатів
+    print("PostgreSQL Query:", postgresQuery)
+    print("MySQL Query:", mysqlQuery)
+
+# Виклик головного коду
+main()

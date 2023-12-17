@@ -1,0 +1,97 @@
+class EntityUpdater:
+    private api: RESTApi
+
+    method constructor(api: RESTApi) -> None:
+        self.api = api
+
+    method updateEntity(entity: Entity) -> Response:
+        if self.validateEntity(entity):
+            request = self.buildRequest(entity)
+            response = self.api.sendRequest(request)
+            if self.isSuccessResponse(response):
+                return self.formatSuccessResponse(response, entity)
+            else:
+                return self.formatErrorResponse(response)
+        else:
+            return self.handleValidationFailure(entity)
+
+    abstract method validateEntity(entity: Entity) -> bool
+    abstract method buildRequest(entity: Entity) -> Request
+    abstract method isSuccessResponse(response: Response) -> bool
+    abstract method formatSuccessResponse(response: Response, entity: Entity) -> Response
+    abstract method formatErrorResponse(response: Response) -> Response
+    abstract method handleValidationFailure(entity: Entity) -> Response
+
+class ProductUpdater extends EntityUpdater:
+    method validateEntity(product: Product) -> bool:
+        # Валідація Товару
+
+    method buildRequest(product: Product) -> Request:
+        # Формування запиту для оновлення Товару
+
+    method isSuccessResponse(response: Response) -> bool:
+        # Перевірка успішної відповіді
+
+    method formatSuccessResponse(response: Response, product: Product) -> Response:
+        # Форматування успішної відповіді
+
+    method formatErrorResponse(response: Response) -> Response:
+        # Форматування відповіді з помилкою
+
+    method handleValidationFailure(product: Product) -> Response:
+        # Обробка валідаційної помилки
+
+class UserUpdater extends EntityUpdater:
+    method validateEntity(user: User) -> bool:
+        # Валідація Користувача
+
+    method buildRequest(user: User) -> Request:
+        # Формування запиту для оновлення Користувача
+
+    method isSuccessResponse(response: Response) -> bool:
+        # Перевірка успішної відповіді
+
+    method formatSuccessResponse(response: Response, user: User) -> Response:
+        # Форматування успішної відповіді
+
+    method formatErrorResponse(response: Response) -> Response:
+        # Форматування відповіді з помилкою
+
+    method handleValidationFailure(user: User) -> Response:
+        # Обробка валідаційної помилки
+
+class OrderUpdater extends EntityUpdater:
+    method validateEntity(order: Order) -> bool:
+        # Валідація Замовлення
+
+    method buildRequest(order: Order) -> Request:
+        # Формування запиту для оновлення Замовлення
+
+    method isSuccessResponse(response: Response) -> bool:
+        # Перевірка успішної відповіді
+
+    method formatSuccessResponse(response: Response, order: Order) -> Response:
+        # Форматування успішної відповіді
+
+    method formatErrorResponse(response: Response) -> Response:
+        # Форматування відповіді з помилкою
+
+    method handleValidationFailure(order: Order) -> Response:
+        # Обробка валідаційної помилки
+
+method main() -> None:
+    api = new RESTApi()
+
+    productUpdater = new ProductUpdater(api)
+    userUpdater = new UserUpdater(api)
+    orderUpdater = new OrderUpdater(api)
+
+    response1 = productUpdater.updateEntity(productEntity)
+    response2 = userUpdater.updateEntity(userEntity)
+    response3 = orderUpdater.updateEntity(orderEntity)
+
+    print("Результат оновлення Товару:", response1)
+    print("Результат оновлення Користувача:", response2)
+    print("Результат оновлення Замовлення:", response3)
+
+main()

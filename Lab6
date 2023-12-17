@@ -1,0 +1,48 @@
+# Абстрактний клас для завантаження файлів
+class Downloader:
+    method download(url: string) -> string
+
+# Конкретний клас завантаження файлів
+class SimpleDownloader extends Downloader:
+    method download(url: string) -> string:
+        # Логіка завантаження файлу за URL
+
+# Клас-замісник для кешування
+class CachingDownloader extends Downloader:
+    private realDownloader: Downloader
+    private cache: Dictionary<string, string>
+
+    method constructor(realDownloader: Downloader) -> None:
+        self.realDownloader = realDownloader
+        self.cache = new Dictionary()
+
+    method download(url: string) -> string:
+        if url in self.cache:
+            return self.cache[url]  # Повертаємо дані з кешу, якщо вони є
+        else:
+            result = self.realDownloader.download(url)
+            self.cache[url] = result  # Зберігаємо дані у кеш
+            return result
+
+# Головний код
+method main() -> None:
+    # Створюємо об'єкт реального завантажувача
+    realDownloader = new SimpleDownloader()
+
+    # Створюємо об'єкт замісника з кешуванням
+    cachingDownloader = new CachingDownloader(realDownloader)
+
+    # Завантажуємо файл з реальним завантажувачем
+    data1 = realDownloader.download("https://example.com/file1")
+    print("Завантажено з реального завантажувача:", data1)
+
+    # Завантажуємо той самий файл через замісник (кешування)
+    data2 = cachingDownloader.download("https://example.com/file1")
+    print("Завантажено через замісник (кеш):", data2)
+
+    # Завантажуємо інший файл через замісник (кешування)
+    data3 = cachingDownloader.download("https://example.com/file2")
+    print("Завантажено через замісник (кеш):", data3)
+
+# Виклик головного коду
+main()
